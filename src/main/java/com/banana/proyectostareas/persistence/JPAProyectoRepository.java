@@ -32,7 +32,12 @@ public class JPAProyectoRepository implements ProyectoJPARepository{
 
     @Override
     public Proyecto update(Proyecto proy) throws RuntimeException {
-        return proy;
+        Proyecto modProy = em.find(Proyecto.class, proy.getId());
+        modProy.setNombre(proy.getNombre());
+        modProy.setFechaCreacion(proy.getFechaCreacion());
+        modProy.setTareas(proy.getTareas());
+
+        return modProy;
     }
 
 }

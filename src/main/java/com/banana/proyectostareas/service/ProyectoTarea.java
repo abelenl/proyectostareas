@@ -42,7 +42,7 @@ public class ProyectoTarea implements ProyectoTareaService{
     public Tarea marcarTareaHecha(Long idTarea) throws TareaNotfoundException, RuntimeException {
         Tarea modTarea = tareaRepo.findById(idTarea);
         modTarea.setCompletada(Boolean.parseBoolean("true"));
-        return tareaRepo.update(modTarea);
+        return modTarea;
     }
 
 }

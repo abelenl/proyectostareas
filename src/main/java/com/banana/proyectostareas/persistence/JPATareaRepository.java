@@ -25,6 +25,12 @@ public class JPATareaRepository implements TareaJPARepository{
 
     @Override
     public Tarea update(Tarea tarea) throws RuntimeException {
-        return tarea;
+        Tarea modTarea = em.find(Tarea.class, tarea.getId());
+        modTarea.setDescripcion(tarea.getDescripcion());
+        modTarea.setFechaLimite(tarea.getFechaLimite());
+        modTarea.setOrden(tarea.getOrden());
+
+
+        return modTarea;
     }
 }

@@ -35,7 +35,7 @@ public class Proyecto {
     @Schema(name = "Fecha creacion proyecto", example = "2024-01-01", required = true)
     private LocalDate fechaCreacion;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "proyecto_id")
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,mappedBy = "proyecto")
+    @Schema(name = "proyecto_id", example = "", required = false)
     private List<Tarea> tareas;
 }
