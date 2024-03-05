@@ -16,7 +16,7 @@ public class Tarea {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="idTarea")
+    @Column(name="id")
     @Schema(name = "Tarea ID", example = "1", required = false)
     private Long id;
 
@@ -24,9 +24,9 @@ public class Tarea {
     @Schema(name = "Descripción tarea", example = "Tarea 1", required = true)
     private String descripcion;
 
-    @Column(name="fechaLimite")
+    @Column(name="fechalimite")
     @Schema(name = "Fecha limite tarea", example = "2024-01-01", required = true)
-    private LocalDate fechaLimite;
+    private LocalDate fechalimite;
 
     @Column(name="orden")
     @Schema(name = "Orden tarea", example = "1", required = false)

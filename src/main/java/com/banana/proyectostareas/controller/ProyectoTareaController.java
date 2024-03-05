@@ -23,7 +23,7 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/proyecto")
+@RequestMapping(value = "/proyectos")
 @Tag(name = "Proyects API", description = "Proyects management APIs")
 public class ProyectoTareaController {
     private static final Logger logger = LoggerFactory.getLogger(ProyectoTareaController.class);

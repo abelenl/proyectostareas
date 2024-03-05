@@ -27,7 +27,7 @@ public class JPATareaRepository implements TareaJPARepository{
     public Tarea update(Tarea tarea) throws RuntimeException {
         Tarea modTarea = em.find(Tarea.class, tarea.getId());
         modTarea.setDescripcion(tarea.getDescripcion());
-        modTarea.setFechaLimite(tarea.getFechaLimite());
+        modTarea.setFechalimite(tarea.getFechalimite());
         modTarea.setOrden(tarea.getOrden());
 
 

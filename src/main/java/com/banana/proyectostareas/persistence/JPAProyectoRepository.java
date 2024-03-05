@@ -34,7 +34,7 @@ public class JPAProyectoRepository implements ProyectoJPARepository{
     public Proyecto update(Proyecto proy) throws RuntimeException {
         Proyecto modProy = em.find(Proyecto.class, proy.getId());
         modProy.setNombre(proy.getNombre());
-        modProy.setFechaCreacion(proy.getFechaCreacion());
+        modProy.setFechaalta(proy.getFechaalta());
         modProy.setTareas(proy.getTareas());
 
         return modProy;
