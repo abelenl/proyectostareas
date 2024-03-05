@@ -30,22 +30,20 @@ public class ProyectoTareaController {
     @Autowired
     ProyectoTareaService proyTserv;
 
-    @Operation(summary = "Añadir nuevo proyecto", description = "Devuelve un proyecto persistido")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Successfully created"),
-            @ApiResponse(responseCode = "4XX", description = "Bad request")
-    })
-    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity crearProyecto(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "Dato Proyecto")
-            @RequestBody @Valid Proyecto newProy
-    ) {
-        newProy.setId(null);
-        proyTserv.crearProyecto(newProy);
+    @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<Proyecto>> getAllProyectos() {
+        List<Proyecto> proyectos = proyTserv.obtenerProyectos();
+        if (proyectos != null && !proyectos.isEmpty()) return ResponseEntity.status(HttpStatus.OK).body(proyectos);
+        else throw new ProyectoNotfoundException("No hay proyectos");
+    }
 
-        if (newProy != null && newProy.getId() > 0) return new ResponseEntity<>(newProy, HttpStatus.CREATED);
-        else
-            return new ResponseEntity<>(new StatusMessage(HttpStatus.BAD_REQUEST.value(), "No encontrado"), HttpStatus.BAD_REQUEST);
+    @GetMapping(value = "/{pid}/tareas", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<Tarea>> getAllTareasdeProyecto(
+            @PathVariable @Min(1) Long pid
+    ) {
+        List<Tarea> tareas = proyTserv.obtenerTareasDelProyecto(pid);
+        if (tareas != null && !tareas.isEmpty()) return ResponseEntity.status(HttpStatus.OK).body(tareas);
+        else throw new ProyectoNotfoundException("El proyecto no tiene tareas");
     }
 
     @PutMapping(value = "/{pid}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -56,27 +54,27 @@ public class ProyectoTareaController {
         return new ResponseEntity<>(proyTserv.anadeTareaAProyecto(pid,tarea), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<List<Proyecto>> getAllProyectos() {
-        List<Proyecto> proyectos = proyTserv.obtenerProyectos();
-        if (proyectos != null && !proyectos.isEmpty()) return ResponseEntity.status(HttpStatus.OK).body(proyectos);
-        else throw new ProyectoNotfoundException("No hay proyectos");
-    }
-
-    @GetMapping(value = "/{pid}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<List<Tarea>> getAllTareasdeProyecto(
-            @PathVariable @Min(1) Long pid
-    ) {
-        List<Tarea> tareas = proyTserv.obtenerTareasDelProyecto(pid);
-        if (tareas != null && !tareas.isEmpty()) return ResponseEntity.status(HttpStatus.OK).body(tareas);
-        else throw new ProyectoNotfoundException("El proyecto no tiene tareas");
-    }
-
-    @PutMapping(value = "/{tid}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/tareas/{tid}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity marcarTareaCompletada(
             @PathVariable @Min(1) Long tid
     ) {
         return new ResponseEntity<>(proyTserv.marcarTareaHecha(tid), HttpStatus.CREATED);
+    }
+
+
+    @Operation(summary = "Añadir nuevo proyecto", description = "Devuelve un proyecto persistido")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "Successfully created"),
+            @ApiResponse(responseCode = "4XX", description = "Bad request")
+    })
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity crearProyecto(@RequestBody @Valid Proyecto newProy) {
+        newProy.setId(null);
+        proyTserv.crearProyecto(newProy);
+
+        if (newProy != null && newProy.getId() > 0) return new ResponseEntity<>(newProy, HttpStatus.CREATED);
+        else
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.BAD_REQUEST.value(), "No encontrado"), HttpStatus.BAD_REQUEST);
     }
 
 }

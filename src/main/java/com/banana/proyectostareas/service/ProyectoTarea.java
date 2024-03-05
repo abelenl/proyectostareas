@@ -3,8 +3,8 @@ package com.banana.proyectostareas.service;
 import com.banana.proyectostareas.exception.*;
 import com.banana.proyectostareas.model.*;
 
-import com.banana.proyectostareas.persistence.ProyectoJPARepository;
-import com.banana.proyectostareas.persistence.TareaJPARepository;
+import com.banana.proyectostareas.persistence.ProyectoRepositoryData;
+import com.banana.proyectostareas.persistence.TareaRepositoryData;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,9 +14,9 @@ import javax.persistence.*;
 @Service
 public class ProyectoTarea implements ProyectoTareaService{
     @Autowired
-    private ProyectoJPARepository proyRepo;
+    private ProyectoRepositoryData proyRepo;
     @Autowired
-    private TareaJPARepository tareaRepo;
+    private TareaRepositoryData tareaRepo;
 
     @PersistenceContext
     EntityManager em;
@@ -26,9 +26,9 @@ public class ProyectoTarea implements ProyectoTareaService{
     }
 
     public Proyecto anadeTareaAProyecto(Long idProyecto, Tarea tarea) throws ProyectoNotfoundException, RuntimeException {
-        Proyecto modProy = proyRepo.findById(idProyecto);
+        Proyecto modProy = proyRepo.findById(idProyecto).orElseThrow(() -> new RuntimeException());
         modProy.getTareas().add(tarea);
-        return proyRepo.update(modProy);
+        return proyRepo.saveAndFlush(modProy);
     }
 
     public List<Proyecto> obtenerProyectos() throws ProyectoNotfoundException, RuntimeException {
@@ -36,11 +36,12 @@ public class ProyectoTarea implements ProyectoTareaService{
     }
 
     public List<Tarea> obtenerTareasDelProyecto(Long idProyecto) throws ProyectoNotfoundException, RuntimeException {
-        return proyRepo.findById(idProyecto).getTareas();
+        Proyecto modProy = proyRepo.findById(idProyecto).orElseThrow(() -> new RuntimeException());
+        return modProy.getTareas();
     }
 
     public Tarea marcarTareaHecha(Long idTarea) throws TareaNotfoundException, RuntimeException {
-        Tarea modTarea = tareaRepo.findById(idTarea);
+        Tarea modTarea = tareaRepo.findById(idTarea).orElseThrow(() -> new RuntimeException());
         modTarea.setCompletada(Boolean.parseBoolean("true"));
         return modTarea;
     }
