@@ -16,7 +16,7 @@ public class Tarea {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name="idTarea")
     @Schema(name = "Tarea ID", example = "1", required = false)
     private Long id;
 
