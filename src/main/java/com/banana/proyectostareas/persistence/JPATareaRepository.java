@@ -30,7 +30,6 @@ public class JPATareaRepository implements TareaJPARepository{
         modTarea.setFechalimite(tarea.getFechalimite());
         modTarea.setOrden(tarea.getOrden());
 
-
         return modTarea;
     }
 }
