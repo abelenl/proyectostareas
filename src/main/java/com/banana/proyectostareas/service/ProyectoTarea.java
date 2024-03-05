@@ -27,8 +27,9 @@ public class ProyectoTarea implements ProyectoTareaService{
 
     public Proyecto anadeTareaAProyecto(Long idProyecto, Tarea tarea) throws ProyectoNotfoundException, RuntimeException {
         Proyecto modProy = proyRepo.findById(idProyecto).orElseThrow(() -> new RuntimeException());
+        em.detach(modProy);
         modProy.getTareas().add(tarea);
-        return proyRepo.saveAndFlush(modProy);
+        return proyRepo.save(modProy);
     }
 
     public List<Proyecto> obtenerProyectos() throws ProyectoNotfoundException, RuntimeException {
@@ -42,6 +43,7 @@ public class ProyectoTarea implements ProyectoTareaService{
 
     public Tarea marcarTareaHecha(Long idTarea) throws TareaNotfoundException, RuntimeException {
         Tarea modTarea = tareaRepo.findById(idTarea).orElseThrow(() -> new RuntimeException());
+        em.detach(modTarea);
         modTarea.setCompletada(Boolean.parseBoolean("true"));
         return modTarea;
     }

@@ -1,5 +1,6 @@
 package com.banana.proyectostareas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -40,5 +41,7 @@ public class Tarea {
     @JoinColumn(name = "proyecto_id")
     @ToString.Exclude
     @Schema(name = "proyecto_id", example = "", required = false)
+    @Transient
+    @JsonIgnore
     private Proyecto proyecto;
 }

@@ -1,6 +1,6 @@
 package com.banana.proyectostareas.exception;
 
-public class TareaNotfoundException extends RuntimeException {
+public class TareaNotfoundException extends GlobalException {
     private static final long serialVersionUID = 1L;
 
     public TareaNotfoundException(String message) {

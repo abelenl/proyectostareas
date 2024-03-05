@@ -1,5 +1,6 @@
 package com.banana.proyectostareas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,6 +42,8 @@ public class Proyecto {
 
     @Column
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,mappedBy = "proyecto")
+    @JsonIgnore
+    @Transient
     @Schema(name = "proyecto_id", example = "", required = false)
     private List<Tarea> tareas;
 }
